@@ -22,10 +22,12 @@ steps:
       -t $(docker.registry.url)/$(imageName):$(version)
       .
     displayName: 'docker build (x86)'
+    enabled: false
 
   - script: |
       docker push $(docker.registry.url)/$(imageName):$(version)
     displayName: 'docker push (x86)'
+    enabled: false
 
   - script: >
       docker build
