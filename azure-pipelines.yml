@@ -29,6 +29,9 @@ steps:
     displayName: 'docker push (x86)'
     enabled: false
 
+  - script: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    displayName: 'Install qemu, needed for arm build'
+    
   - script: >
       docker build
       -t $(docker.registry.url)/$(imageName):$(version)-arm32v7
