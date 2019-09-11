@@ -1,19 +1,39 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- master
+  branches:
+    include:
+      - 1.2
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-16.04' 
+
+variables:
+  - group: 'azure-docker-registry'
+  - name: 'imageName'
+    value: 'fluent/fluent-bit'
+  - name: 'version'
+    value: '1.2.2'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  - script: docker login -u $(docker.registry.userName) -p $(docker.registry.password) $(docker.registry.url)
+    displayName: 'docker login'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - script: >
+      docker build
+      -t $(docker.registry.url)/$(imageName):$(version)
+      .
+    displayName: 'docker build (x86)'
+
+  - script: |
+      docker push $(docker.registry.url)/$(imageName):$(version)
+    displayName: 'docker push (x86)'
+
+  - script: >
+      docker build
+      -t $(docker.registry.url)/$(imageName):$(version)-arm32v7
+      -f Dockerfile.arm32v7
+      .
+    displayName: 'docker build (arm32v7)'
+
+  - script: |
+      docker push $(docker.registry.url)/$(imageName):$(version)-arm32v7
+    displayName: 'docker push (arm32v7)'
