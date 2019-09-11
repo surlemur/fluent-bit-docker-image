@@ -23,10 +23,11 @@ Fluent Bit Dockerfiles are located in separated branches with proper tags:
 
 ## 2. Build image
 
-Use `docker build` command to build the image. This example names the image "fluent-bit:latest":
+Use `docker build` command to build the image. This example names the image "fluent-bit:1.2.2":
 
 ```
-$ docker build -t fluent/fluent-bit:1.0 ./
+$ docker build -t fluent/fluent-bit:1.2.2 .
+$ docker build -f Dockerfile-arm32v7 -t fluent/fluent-bit:1.2.2-arm32v7 .
 ```
 
 ## 3. Test it
@@ -34,7 +35,7 @@ $ docker build -t fluent/fluent-bit:1.0 ./
 Once the image is built, it's ready to run:
 
 ```
-docker run -p 127.0.0.1:24224:24224 fluent/fluent-bit:latest
+docker run -p 127.0.0.1:24224:24224 fluent/fluent-bit:1.2.2
 ```
 
 By default, the configuration set a listener on TCP port 24224 through Forward protocol and prints to the standard output interface each message. So this can be used to forward Docker log messages from one container to the Fluent Bit image, e.g:
