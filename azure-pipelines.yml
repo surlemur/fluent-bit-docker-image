@@ -22,12 +22,10 @@ steps:
       -t $(docker.registry.url)/$(imageName):$(version)
       .
     displayName: 'docker build (x86)'
-    enabled: false
 
   - script: |
       docker push $(docker.registry.url)/$(imageName):$(version)
     displayName: 'docker push (x86)'
-    enabled: false
 
   - script: >
       docker run --rm --privileged multiarch/qemu-user-static:4.1.0-1 --reset -p yes &&
