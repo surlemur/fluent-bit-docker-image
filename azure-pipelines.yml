@@ -32,7 +32,7 @@ steps:
   - script: >
       docker build
       -t $(docker.registry.url)/$(imageName):$(version)-arm32v7
-      -f Dockerfile.arm32v7
+      -f Dockerfile-arm32v7
       .
     displayName: 'docker build (arm32v7)'
 
