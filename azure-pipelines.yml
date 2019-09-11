@@ -30,7 +30,7 @@ steps:
     enabled: false
 
   - script: >
-      docker run --rm --privileged multiarch/qemu-user-static:register --reset &&
+      docker run --rm --privileged multiarch/qemu-user-static:4.1.0-1 --reset -p yes &&
       docker build
       -t $(docker.registry.url)/$(imageName):$(version)-arm32v7
       -f Dockerfile-arm32v7
